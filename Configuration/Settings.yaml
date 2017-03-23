@@ -1,0 +1,9 @@
+TYPO3:
+  Neos:
+    userInterface:
+      translation:
+        autoInclude:
+          'Dotpulse.Accordion': ['NodeTypes/*']
+    typoScript:
+      autoInclude:
+        'Dotpulse.Accordion': TRUE
