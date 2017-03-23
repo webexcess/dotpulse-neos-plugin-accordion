@@ -22,7 +22,6 @@
 'Dotpulse.Accordion:AccordionContent':
   superTypes:
     'TYPO3.Neos:Content': TRUE
-    'TYPO3.Neos.NodeTypes:ImageMixin': TRUE
   ui:
     label: i18n
     group: 'structure'
