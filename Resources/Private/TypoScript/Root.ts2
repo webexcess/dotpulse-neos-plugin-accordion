@@ -1,49 +1,62 @@
-prototype(Dotpulse.Accordion:AccordionContainer) < prototype(TYPO3.Neos:Content) {
-	node = ${node}
-	content {
-		main = TYPO3.Neos:ContentCollection {
-			nodePath = 'main'
-			attributes {
-				id = ${'accordion-' + node.identifier}
-				data-accordion = true
-				data-accordion.@if.isLive = ${!node.context.inBackend}
-				data-allow-all-closed = 'true'
-				class = TYPO3.TypoScript:RawArray {
-					accordioncontainer = 'accordion'
-				}
+prototype(Dotpulse.Accordion:Container) < prototype(Content) {
+	closeOthers = ${q(node).property('closeOthers') ? true : false}
+	@context.closeOthers = ${this.closeOthers}
+	firstOpen = ${q(node).property('firstOpen') ? true : false}
+	@context.firstOpen = ${this.firstOpen}
+
+	content = ContentCollection {
+		nodePath = 'main'
+		attributes {
+			class = TYPO3.TypoScript:RawArray {
+				accordion = 'accordion'
+				backend = 'neos-accordion-backend'
+				backend.@if.isInBackend = ${node.context.inBackend}
 			}
+			data-close-others = ${closeOthers}
+			data-open-first = ${firstOpen}
 		}
 	}
 }
 
-prototype(Dotpulse.Accordion:AccordionContent) < prototype(TYPO3.Neos:Content) {
-	attributes {
-		id = ${'accordion-item-' + node.identifier}
-		class = TYPO3.TypoScript:RawArray {
-			item = 'accordion-item'
-			active = ${q(node).property('active') ? 'is-active' : ''}
-		}
-		data-accordion-item = true
-		data-accordion-item.@if.isLive = ${!node.context.inBackend}
+prototype(Dotpulse.Accordion:Content) < prototype(Content) {
+	attributes.class = TYPO3.TypoScript:RawArray {
+		item = 'accordion-item'
+		active = ${q(node).property('active') ? 'accordion-item-active' : ''}
 	}
 
 	titleAttributes = TYPO3.TypoScript:Attributes {
 		class = 'accordion-title'
 	}
+	contentAttributes = TYPO3.TypoScript:Attributes {
+		class = 'accordion-content'
+	}
 
-	content {
-		main = TYPO3.Neos:ContentCollection {
-			nodePath = 'main'
-			attributes {
-				class = TYPO3.TypoScript:RawArray {
-					live = 'accordion-content'
-					live.@if.isLive = ${!node.context.inBackend}
-					backend = 'accordion-content-backend'
-					backend.@if.isBackend = ${node.context.inBackend}
-				}
-				data-tab-content = true
-				data-tab-content.@if.isLive = ${!node.context.inBackend}
+	content = ContentCollection {
+		nodePath = 'main'
+		attributes {
+			class = 'accordion-content-inner'
+			class.@process.collectionClass >
+		}
+	}
+}
+
+prototype(Page) {
+	head.Accordion = TYPO3.TypoScript:Tag {
+		tagName = 'link'
+		attributes {
+			rel = 'stylesheet'
+			href = TYPO3.TypoScript:ResourceUri {
+				path = 'resource://Dotpulse.Accordion/Public/accordion.min.css'
 			}
 		}
+		@if.isEnabled = ${Configuration.setting('Dotpulse.Accordion.includeCss')}
+	}
+	body.javascripts.Accordion = TYPO3.TypoScript:Tag {
+		tagName = 'script'
+		attributes.src = TYPO3.TypoScript:ResourceUri {
+			path = 'resource://Dotpulse.Accordion/Public/accordion.min.js'
+		}
+		@position = 'end'
+		@if.isEnabled = ${Configuration.setting('Dotpulse.Accordion.includeJavascript')}
 	}
 }

@@ -1,25 +1,9 @@
 'TYPO3.Neos:ContentCollection':
   constraints:
     nodeTypes:
-      'Dotpulse.Accordion:AccordionContent': FALSE
+      'Dotpulse.Accordion:Content': FALSE
 
-'Dotpulse.Accordion:AccordionContainer':
-  superTypes:
-    'TYPO3.Neos:Content': TRUE
-  ui:
-    label: i18n
-    group: 'structure'
-    icon: 'icon-chevron-down'
-    inlineEditable: TRUE
-  childNodes:
-    main:
-      type: 'TYPO3.Neos:ContentCollection'
-      constraints:
-        nodeTypes:
-          '*': FALSE
-          'Dotpulse.Accordion:AccordionContent': TRUE
-
-'Dotpulse.Accordion:AccordionContent':
+'Dotpulse.Accordion:Container':
   superTypes:
     'TYPO3.Neos:Content': TRUE
   ui:
@@ -37,7 +21,43 @@
       type: 'TYPO3.Neos:ContentCollection'
       constraints:
         nodeTypes:
-          'Dotpulse.Accordion:AccordionContainer': FALSE
+          '*': FALSE
+          'Dotpulse.Accordion:Content': TRUE
+  properties:
+    closeOthers:
+      type: boolean
+      defaultValue: TRUE
+      ui:
+        label: i18n
+        inspector:
+          group: 'accordion'
+    firstOpen:
+      type: boolean
+      defaultValue: FALSE
+      ui:
+        label: i18n
+        inspector:
+          group: 'accordion'
+
+'Dotpulse.Accordion:Content':
+  superTypes:
+    'TYPO3.Neos:Content': TRUE
+  ui:
+    label: i18n
+    group: 'structure'
+    icon: 'icon-chevron-down'
+    inlineEditable: TRUE
+    inspector:
+      groups:
+        accordion:
+          label: i18n
+          position: 1
+  childNodes:
+    main:
+      type: 'TYPO3.Neos:ContentCollection'
+      constraints:
+        nodeTypes:
+          'Dotpulse.Accordion:Container': FALSE
   properties:
     title:
       type: string

@@ -5,6 +5,15 @@
 			<trans-unit id="ui.label" xml:space="preserve">
 				<source>Accordion</source>
 			</trans-unit>
+			<trans-unit id="groups.accordion" xml:space="preserve">
+				<source>Accordion</source>
+			</trans-unit>
+			<trans-unit id="properties.closeOthers" xml:space="preserve">
+				<source>Close others</source>
+			</trans-unit>
+			<trans-unit id="properties.firstOpen" xml:space="preserve">
+				<source>Open first</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

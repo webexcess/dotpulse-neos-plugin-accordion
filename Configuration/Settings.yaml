@@ -7,3 +7,8 @@ TYPO3:
     typoScript:
       autoInclude:
         'Dotpulse.Accordion': TRUE
+
+Dotpulse:
+  Accordion:
+    includeCss: FALSE
+    includeJavascript: FALSE
